@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>搜索页面</title>
+		<script type="text/javascript" src="./js/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/flexible.js"></script>
+		<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+		<style>
+			html{
+				color:#000;
+				overflow-y:scroll;
+				-webkit-text-size-adjust:100%;
+				-ms-text-size-adjust:100%;
+				}
+			html *{
+				outline:0;
+				-webkit-text-size-adjust:none;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body {
+				background:#EEEEEE;
+				color:#4a4f5a;
+				font: 200 14px/1.5 "微软雅黑",Helvetica,STHeiti,Droid Sans Fallback;
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}
+			li{
+				list-style-type: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			/*头部搜索*/
+			.header{
+				width: 100%;
+				height: 1rem;
+				background-color: #F2F2F2;
+				position: fixed;
+				overflow: hidden;
+				top: 0;
+				z-index: 100;
+			}
+			.header .float,.right div{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.right .right-search{
+				margin-right: .1rem;
+				border: 1px solid limegreen;
+				border-radius: 15px;
+				overflow: hidden;
+			}
+			.header .float,.right{
+				margin-top: .2rem;
+			}
+			.title img{
+				height: .6rem;
+			}
+			.right-search .search-icon{
+				transform: translateY(3px);
+			}
+			.right-search img{
+				height: .5rem;
+				margin-left: .05rem;
+			}
+			.search-input input{
+				width: 5rem;
+				height: .61rem;
+				border: none;
+				background-color:#EEEEEE;
+				font-size: .4rem;
+			}
+			.search-button button{
+				margin-left: .3rem;
+				margin-right: .3rem;
+				font-size: .4rem;
+				border: none;
+				background-color: #EEEEEE;
+				opacity: .8;
+				color: limegreen;
+			}
+			/*搜索排列*/
+			.search-list{
+				background-color: white;
+				position: absolute;
+				width: 100%;
+			}
+			.search-list li{
+				width: 95%;
+				border-bottom: 1px solid #DBDBDB;
+				margin:0 auto;
+				padding: 8px 0;
+				font-size: .35rem;
+			}
+			
+			/*搜索历史样式*/
+			.search-history-box{
+				margin-bottom: 10px;
+			}
+			.search-history-title{
+				overflow: hidden;
+				background-color: white;
+				padding: 10px 0;
+			}
+			.search-history-title div:first-child{
+				float: left;
+				margin-left:10px;
+				color: #000000;
+			}
+			.search-history-title div:last-child{
+				float: right;
+				margin-right: 10px;
+				color: red;
+			}
+			.search-history-title div span{
+				font-size: .4rem;
+			}
+			.history-li{
+				background-color: white;
+				margin-top: 3px;
+				overflow: hidden;
+				padding: 10px 2%;
+			}
+			.history-li li{
+				float: left;
+				font-size: .4rem;
+				min-width: 49%;
+			}
+			/*热门搜索样式*/
+			.hot-search-title{
+				overflow: hidden;
+				background-color: white;
+				padding: 10px 2%;
+			}
+			.hot-search-title .title span{
+				font-size: .4rem;
+			}
+			.hot-li{
+				background-color: white;
+				margin-top: 5px;
+				overflow: hidden;
+				padding: 10px 2%;
+			}
+			.hot-li li{
+				float: left;
+				font-size: .4rem;
+				min-width: 49%;
+			}
+			/*搜索得到的列表*/
+			.video-list,.video-list li{
+				overflow: hidden;
+				margin-top: 10px;
+			}
+			.li-left{
+				width: 30%;
+			}
+			.li-right{
+				width: 70%;
+			}
+			.li-right .video-title span{
+				font-size: .5rem;
+			}
+			.li-right .video-summary span{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 4;
+				overflow: hidden;
+				font-size: .35rem;
+			}
+			.li-right,.li-left{
+				float: left;
+			}
+			.video-img img{
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<!--顶部头-->
+		<div id="find">
+			<div class="header">
+				<div class="title float">
+					<img src="img/标题.png"/>
+				</div>
+				<div class="right">
+					<div class="right-search">
+						<div class="search-icon">
+							<img src="img/放大镜.png" />
+						</div>
+						<div class="search-input">
+							<input  type="search" v-model="val" v-on:keyup="searchList"  />
+						</div>
+					</div>
+					<div class="search-button">
+						<button v-on:click="searchLink">搜索</button>
+					</div>
+				</div>
+			</div>
+			<div style="margin-top: 1rem;"></div>
+			<!--搜索列表-->
+			<div class="search-list">
+				<ul v-for="list in searchlist">
+					<a :href="'/search/search_video?search_key='+list" style="color: black"><li>{{list}}</li></a>
+				</ul>
+			</div>
+		<!--搜索记录-->
+			<div th:if="${search_result==null}">
+				<!--<div class="search-history-box">-->
+					<!--<div class="search-history-title">-->
+						<!--<div class="title">-->
+							<!--<span>搜索历史</span>-->
+						<!--</div>-->
+						<!--<div class="remove-history">-->
+							<!--<span>清除历史</span>-->
+						<!--</div>-->
+					<!--</div>-->
+					<!--<div class="history-li">-->
+						<!--<ul>-->
+							<!--<li>woshi sda</li>-->
+							<!--<li>wosdddd </li>-->
+							<!--<li>vddd ddaa</li>-->
+							<!--<li>rrrrrwwww</li>-->
+							<!--<li>woshi sda</li>-->
+							<!--<li>wosdddd </li>-->
+							<!--<li>vddd ddaa</li>-->
+							<!--<li>rrrrrwwww</li>-->
+							<!--<li>woshi sda</li>-->
+							<!--<li>wosdddd </li>-->
+							<!--<li>vddd ddaa</li>-->
+							<!--<li>rrrrrwwww</li>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--热门搜索-->
+				<div class="hot-search">
+					<div class="hot-search-title">
+						<div class="title">
+							<span>热门搜索</span>
+						</div>
+					</div>
+					<div class="hot-li">
+						<ul>
+							<li><span >1</span>&nbsp;&nbsp;特化师</li>
+							<li><span>2</span>&nbsp;&nbsp;特警精英</li>
+							<li><span>3</span>&nbsp;&nbsp;我的体育老师</li>
+							<li><span>4</span>&nbsp;&nbsp;猎场</li>
+							<li><span>5</span>&nbsp;&nbsp;你好，旧时光</li>
+							<li><span>6</span>&nbsp;&nbsp;天使之路</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="video-list">
+				<ul>
+					<li>
+						<a style="color: black">
+						<div class="li-left">
+							<div class="video-img">
+								<img src="img/THS.jpg" />
+							</div>
+						</div>
+						<div class="li-right">
+							<div class="video-title">
+								<span>特化师</span>&nbsp;&nbsp;&nbsp;<span>42集</span>&nbsp;&nbsp;&nbsp;<span>国语</span>
+							</div>
+							<div class="video-summary">
+								<span>从小以女侠自居的陈真（谭松韵饰）个性率真，是个化妆品销售。在一场时尚秀上，她意外令她遇到了特效化妆界的翘楚王翼（张丹峰饰），开启了她对于特效化妆职业的无限向往。发誓寻找到亲生母亲的王翼回国后无心经营家族生意，却被迫卷入与同父异母弟弟王霄的情感和商业竞争中。志仁帮助陈真在特效化妆行业不断成长，完成了一个个浪漫温馨的特化案例，两人渐生情愫，而暗恋陈真的宋前进、心系王翼的沈芸、仰慕王霄的沙恬等人更是为两人设置了一道道难关。王翼终于找回母亲，在初恋女友秀明、特效造型师好友雷子凡和陈真的帮助下，解决职场危机并获得成功。被嫉妒和仇恨冲昏头脑的王霄走投无路，王翼以宽厚之心原谅弟弟完成救赎。一场温馨的婚礼在古朴的小教堂举行，属于俩人的幸福终于降临</span>
+							</div>
+						</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	<script th:inline="javascript">
+			var search=new Vue({
+                el: '#find',
+				data:{
+                    val:/*[[${search_key}]]*/'',
+                    searchlist:[]
+				},
+				methods:{
+                    searchList:function(){
+                        var searchVal=this.val;
+                        if(searchVal==null||searchVal==""){
+                            search.searchlist="";
+                            $('.search-history-box').css("display","block");
+                            $('.hot-search').css("display","block");
+						}else {
+                            $.ajax({             //用ajax来实现不刷新网页的基础上更新数据
+                                type:"post",  //请求方式
+                                url:"/search/title",  //路径
+                                data:{
+                                    sub:searchVal
+                                },
+                                success:function(data){
+                                    search.searchlist=data;
+                                    $('.search-history-box').css("display","none");
+                                    $('.hot-search').css("display","none");
+                                }
+                            });
+						}
+
+					},
+					searchLink:function () {
+						window.location.href="/search/search_video?search_key="+this.val;
+                    }
+				}
+			});
+	</script>
+	</body>
+</html>

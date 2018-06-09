@@ -1,0 +1,232 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>个人页面</title>
+	
+		<style type="text/css">
+			html{
+				color:#000;
+				overflow-y:scroll;
+				-webkit-text-size-adjust:100%;
+				-ms-text-size-adjust:100%;
+				}
+			html *{
+				outline:0;
+				-webkit-text-size-adjust:none;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body {
+				background:#FFF;
+				color:#4a4f5a;
+				font: 400 14px/1.5 "微软雅黑",Helvetica,STHeiti,Droid Sans Fallback;
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}
+			a{
+				color:black;
+			}
+			/*header标签样式*/
+			.header{
+				width: 100%;
+				height: 1rem;
+				background-color: #E3E3E3;
+				position: fixed;
+				overflow: hidden;
+				top: 0;
+				z-index: 100;
+			}
+			.header .float,.right div{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.right div{
+				margin-right: .5rem;
+			}
+			.header .float,.right{
+				margin-top: .2rem;
+			}
+			.title{
+				margin-left: .3rem;
+			}
+			.header img{
+				height: .6rem;
+			}
+			li{
+				list-style-type: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			/*content内容样式*/
+			.content{
+				margin-top: 1rem;
+				padding: .4rem 0;
+				background-color: #F2F2F2;
+			}
+			/*person登录样式*/
+			.person div,.message div,.record div,.collection div,.about div{
+				display: inline-block;
+				vertical-align: top;
+			}
+			.person{
+				background-color: white;
+				padding: .5rem 0;
+			}
+			.head{
+				margin-left: .3rem;
+			}
+			.head img{
+				width: 2rem;
+				border-radius: .9rem;
+			}
+			.user-name{
+				margin: .3rem 0 0 .2rem;
+			}
+			.login{
+				margin: .7rem 0 0 .5rem;
+			}
+			.login-text img,.message-icon img,.record-icon img,.collection-icon img,.about-icon img{
+				width: .47rem;
+			}
+			/*右边箭头图标样式*/
+			.message-icon,.record-icon,.collection-icon,.about-icon{
+				margin: .15rem 0 0 0;
+			}
+			
+			
+			/*message消息样式*/
+			.message,.record{
+				background-color: white;
+				padding: .35rem 0;
+				margin-top: .4rem;
+			}
+			.collection,.about{
+				background-color: white;
+				border-top: 1px solid #DBDBDB;
+				padding: .35rem 0;
+			}
+			.message-name,.record-name,.collection-name,.about-name{
+				margin: 0 0 0 .4rem;
+			}
+			/*右边箭头图标样式*/
+			.login-icon,.message-icon,.record-icon,.collection-icon,.about-icon{
+				position: absolute;
+				right: .3rem;
+			}
+			.bottom{
+				text-align: center;
+				margin-top: .6rem;
+			}
+			.bottom-icon img{
+				width: 3rem;
+			}
+		</style>
+	</head>
+<body>
+	<div class="header">
+		<a href="index.html">
+			<div class="title float">
+				<img src="./img/标题.png"/>
+			</div>
+		</a>
+		<div class="right">
+			<a href="search.html">
+				<div class="search">
+					<img src="img/放大镜.png" />
+				</div>
+			</a>
+			<div class="history">
+				<img src="img/历史.png" />
+			</div>
+			<div class="mine">
+				<img src="img/我的.png" />
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="person">
+			<div class="head">
+				<img src="img/我的.png" />
+			</div>
+			<div th:if="${user}==null">
+				<div class="user-name">
+					<p style="font-size: .5rem;">未登录用户</p>
+					<p style="font-size: .4rem;opacity: .6;">登录后可享受更多服务</p>
+				</div>
+				<div class="login">
+					<div class="login-text">
+						<a href="/login"> <p style="font-size: .48rem;color: #76EE00;">立即登录<span class="login-icon"><img src="img/箭头.png"/></span></p></a>
+					</div>
+				</div>
+			</div>
+			<div th:if="${user}!=null">
+				<div class="login">
+					<p style="font-size: .5rem;color: #1E90FF" th:text="${user.nike_name}"></p>
+				</div>
+				<div class="login">
+					<div class="login-text">
+						<a href="/loginOut"> <span class="login-icon"><p style="font-size: .48rem;color: #76EE00;">注销<img src="img/箭头.png"/></p></span></a>
+					</div>
+				</div>
+			</div>
+		</div><!--person结束-->
+		<div class="message">
+			<a href="/news">
+			<div class="message-name">
+				<p style="font-size: .48rem;">消息</p>
+			</div>
+			</a>
+			<div class="message-icon">
+				<img src="img/箭头.png"/>
+			</div>
+		</div>
+		<div class="record">
+			<div class="record-name">
+				<p style="font-size: .48rem;">播放记录</p>
+			</div>
+			<div class="record-icon">
+				<img src="img/箭头.png"/>
+			</div>
+		</div>
+		<div class="collection">
+			<a href="/upload">
+				<div class="collection-name">
+					<p style="font-size: .48rem;">上传</p>
+				</div>
+			</a>
+			<div class="collection-icon">
+				<img src="img/箭头.png"/>
+			</div>
+		</div>
+		<div class="about">
+			<div class="about-name">
+				<p style="font-size: .48rem;">关于我们</p>
+			</div>
+			<div class="about-icon">
+				<img src="img/箭头.png"/>
+			</div>
+		</div>
+		<div class="bottom">
+			<div class="bottom-icon">
+				<img src="img/foot.png" /> <!--资源来自爱奇艺-->
+			</div>
+		</div>
+	</div>
+	<div class="footer" style="text-align: center;background-color: #F1F1F1;">
+		<p style="font-size: .5rem;"><a href="javascript:;" style="color: #1E90FF;">Design by ----L King</a></p>
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/flexible.js"></script>
+	
+</body>
+</html>

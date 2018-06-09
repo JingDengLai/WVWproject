@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>电视剧详情页</title>
+		<script type="text/javascript" src="./js/jquery.min.js"></script>
+		<script type="text/javascript" src="./js/flexible.js"></script>
+		<style>
+			html{
+				color:#000;
+				overflow-y:scroll;
+				-webkit-text-size-adjust:100%;
+				-ms-text-size-adjust:100%;
+				}
+			html *{
+				outline:0;
+				-webkit-text-size-adjust:none;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body {
+				background:#EEEEEE;
+				color:#4a4f5a;
+				font: 200 14px/1.5 "微软雅黑",Helvetica,STHeiti,Droid Sans Fallback;
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}
+			li{
+				list-style-type: none;
+			}
+			a{
+				text-decoration: none;
+			}
+			/*头部样式*/
+			.header{
+				width: 100%;
+				height: 1rem;
+				background-color: #F2F2F2;
+				position: fixed;
+				overflow: hidden;
+				top: 0;
+				z-index: 100;
+			}
+			.header .float,.right div{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.right div{
+				margin-right: .5rem;
+			}
+			.header .float,.right{
+				margin-top: .2rem;
+			}
+			.title{
+				margin-left: .3rem;
+			}
+			.header img{
+				height: .6rem;
+			}
+			/*中间内容样式*/
+			.container-head{
+				margin-top: 1rem;
+			}
+			.head-img{
+				width: 40%;
+			}
+			.head-img img{
+				width: 100%;
+				height: 100%;
+			}
+			.container-head-img{
+				overflow: hidden;
+			}
+			.head-img,.head-summary{
+				float: left;
+			}
+			.container-head-title{
+				margin:0 0 0 .2rem;
+			}
+			.container-head-intro-area{
+				overflow: hidden;
+			}
+			.container-head-intro-area div{
+				margin: .1rem .2rem;
+				font-size: .45rem;
+			}
+			.container-head-intro-summary{
+				margin:0 0 0 .2rem;
+				font-size: .4rem;
+			}
+			.container-head-intro-summary #summary{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				overflow: hidden;
+			}
+			
+			/*底部集数列表*/
+			.tv-list,.tv-list-item{
+				margin-top: 10px;
+				overflow: hidden;
+			}
+			.tv-list-title p{
+				font-size: .5rem;
+			}
+			.tv-list-item ul{
+				overflow: hidden;
+			}
+			.tv-list-item li{
+				width: 32%;
+				display: inline-block;
+				vertical-align: top;
+				margin: 5px 0;
+			}
+			.sum-list-title span{
+				font-size: .4rem;
+			}
+			.sum-list-into span{
+				font-size: .2rem;
+			}
+			.sum-list-img img{
+				width: 100%;
+			}
+			/*推荐视频*/
+			.like-list{
+				margin: .2rem 0;
+			}
+			.like-list-text p{
+				font-size: .5rem;
+				margin-left: .2rem;
+			}
+			.like-list-video{
+				overflow: scroll;
+			}
+			::-webkit-scrollbar {/*隐藏滚轮*/
+				display: none;
+			}
+			.like-list-video ul{
+				width: 19.5rem;
+				overflow: hidden;
+			}
+			.like-list-video li{
+				float: left;
+				overflow: hidden;
+				margin: .3rem 0 .3rem .18rem;
+				width: 3rem;
+			}
+			.like-list li p{
+				width: 3rem;
+				font-size: .4rem;
+				overflow: hidden;
+			}
+			.like-list-video img{
+				width: 3rem;
+			}
+			
+			.bottom{
+				text-align: center;
+				margin-top: .6rem;
+			}
+			.bottom-icon img{
+				width: 3rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<a href="index.html">
+				<div class="title float">
+					<img src="./img/标题.png"/>
+				</div>
+			</a>
+			<div class="right">
+				<a href="search.html">
+					<div class="search">
+						<img src="./img/放大镜.png" />
+					</div>
+				</a>
+				<div class="history">
+					<img src="./img/历史.png" />
+				</div>
+				<div class="mine">
+					<a href="person.html"><img src="./img/我的.png" /></a>
+				</div>
+			</div>
+		</div>
+		<div class="content">
+			<div class="container-head">
+				<div class="container-head-img">
+					<div class="head-img">
+						<img src="img/生逢灿烂的日子.jpg" />
+					</div>
+					<div class="head-summary">
+						<div class="container-head-title">
+							<h2 th:text="${series.title}">阳光灿烂的日子</h2>
+						</div>
+						<div class="container-head-intro-area">
+							<div class="area">
+								<span>地区:</span><span th:text="${series.area}">内地</span>
+							</div>
+							<div class="language">
+								<span>语言:</span><span th:text="${series.language}">国语</span>
+							</div>
+							<div class="sum">
+								<span>集数:</span><span th:text="${series.sum}">56集</span>
+							</div>
+							<div class="time">
+								<span>时间:</span><span th:text="${series.time}">2017-10-11</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="container-head-intro">
+					<div class="container-head-intro-summary">
+						<span>简介:</span><span id="summary" th:text="${series.summary}"> 1970年4月26日，北京胡同里郭家的老四出生了。三个哥哥对老四疼爱有加，然而，在一次打
+							闹中，大哥却失手用水果刀将邻居老范的儿子大伟直接捅死，大哥为自己的行为付出了代价。出狱之后，大哥接二连三的经历人生的低
+							谷之后，决定抛弃一切，只身远赴草原。二哥从最初的卖买绿豆芽到做起羊肉摊生意，从经营服装厂到投资股票，屡战屡败，屡败屡战。他
+							对事业的执着也正如他对二小姐的心意。老三大学毕业后直接投身到股票市场，在师傅带领下，不断进步成长，终于能独当一面。这个时候他
+							又陷入到两段感情中无法抉择，最终独自前往海南。最小的老四患有先天性哮喘，讲话结巴。为了不拖累家庭，锻炼自己，苦练绕口令和相声，最
+							终成为一名邮差，也因为这份工作，找到了自己的真爱。</span><a href="javascript:;" ><span>展开</span></a>
+					</div>
+				</div>
+			</div>
+			<div class="tv-list">
+				<div class="tv-list-title">
+					<p>剧集列表</p>
+				</div>
+				<div class="tv-list-item">
+					<ul>
+						<li th:each="item : ${programmes}" style="position: relative">
+							<div class="sum-list-img" style="position: relative">
+								<a th:href="${item.detailPage}">
+									<img src="img/第一集.jpg" />
+									<div class="sun-list-time" style="position: absolute;bottom:5px;color: white;" >
+										<span th:text="${item.video_long}">55.55</span>
+									</div>
+								</a>
+							</div>
+							<div class="sum-list-title">
+								<span th:text="${item.title}">第一集</span>
+							</div>
+							<div class="sum-list-into">
+								<span th:text="${item.little_sum}">苏语凝被判为皇后</span>
+							</div>
+						</li>
+						<li th:each="item : ${programmes}" style="position: relative">
+							<div class="sum-list-img" style="position: relative">
+								<a th:href="${item.detailPage}">
+									<img src="img/第二集.jpg" />
+									<div class="sun-list-time" style="position: absolute;bottom:5px;color: white;" >
+										<span th:text="${item.video_long}">55.55</span>
+									</div>
+								</a>
+							</div>
+							<div class="sum-list-title">
+								<span th:text="${item.title}">第二集</span>
+							</div>
+							<div class="sum-list-into">
+								<span th:text="${item.little_sum}">苏语凝被判为皇后</span>
+							</div>
+						</li>
+						<li th:each="item : ${programmes}" style="position: relative">
+							<div class="sum-list-img" style="position: relative">
+								<a th:href="${item.detailPage}">
+									<img src="img/第三集.jpg" />
+									<div class="sun-list-time" style="position: absolute;bottom:5px;color: white;" >
+										<span th:text="${item.video_long}">55.55</span>
+									</div>
+								</a>
+							</div>
+							<div class="sum-list-title">
+								<span th:text="${item.title}">第三集</span>
+							</div>
+							<div class="sum-list-into">
+								<span th:text="${item.little_sum}">苏语凝被判为皇后</span>
+							</div>
+						</li>
+						<li th:each="item : ${programmes}" style="position: relative">
+							<div class="sum-list-img" style="position: relative">
+								<a th:href="${item.detailPage}">
+									<img src="img/第四集.jpg" />
+									<div class="sun-list-time" style="position: absolute;bottom:5px;color: white;" >
+										<span th:text="${item.video_long}">55.55</span>
+									</div>
+								</a>
+							</div>
+							<div class="sum-list-title">
+								<span th:text="${item.title}">第四集</span>
+							</div>
+							<div class="sum-list-into">
+								<span th:text="${item.little_sum}">苏语凝被判为皇后</span>
+							</div>
+						</li>
+						<li th:each="item : ${programmes}" style="position: relative">
+							<div class="sum-list-img" style="position: relative">
+								<a th:href="${item.detailPage}">
+									<img src="img/第五集.jpg" />
+									<div class="sun-list-time" style="position: absolute;bottom:5px;color: white;" >
+										<span th:text="${item.video_long}">55.55</span>
+									</div>
+								</a>
+							</div>
+							<div class="sum-list-title">
+								<span th:text="${item.title}">第五集</span>
+							</div>
+							<div class="sum-list-into">
+								<span th:text="${item.little_sum}">苏语凝被判为皇后</span>
+							</div>
+						</li>
+						<li th:each="item : ${programmes}" style="position: relative">
+							<div class="sum-list-img" style="position: relative">
+								<a th:href="${item.detailPage}">
+									<img src="img/第六集.jpg" />
+									<div class="sun-list-time" style="position: absolute;bottom:5px;color: white;" >
+										<span th:text="${item.video_long}">55.55</span>
+									</div>
+								</a>
+							</div>
+							<div class="sum-list-title">
+								<span th:text="${item.title}">第六集</span>
+							</div>
+							<div class="sum-list-into">
+								<span th:text="${item.little_sum}">苏语凝被判为皇后</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!--推荐视频-->
+				<div class="like-list">
+					<!--标题-->
+					<div class="like-list-text">
+						<p>推荐视频</p>
+					</div>
+					<!--猜你喜欢列表-->
+					<div class="like-list-video">
+						<ul>
+							<li>
+								<a href="programme_detail.html">
+									<img src="img/TV1.jpg" />
+									<p>钟馗捉妖记</p>
+								</a>
+							</li>
+							<li>
+								<a href="programme_detail.html">
+									<img src="img/TV2.jpg" />
+									<p>同学两亿岁</p>
+								</a>
+							</li>
+							<li>
+								<a href="programme_detail.html">
+									<img src="img/TV3.jpg" />
+									<p>归去来</p>
+								</a>
+							</li>
+							<li>
+								<a href="programme_detail.html">
+									<img src="img/TV4.jpg" />
+									<p>冒险王卫斯理</p>
+								</a>
+							</li>
+							<li>
+								<a href="programme_detail.html">
+									<img src="img/TV5.gif" />
+									<p>热血狂篮</p>
+								</a>
+							</li>
+							<li>
+								<a href="programme_detail.html">
+									<img src="img/TV6.jpg" />
+									<p>国民安保官</p>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!--推荐视频标签-->
+
+			<div class="bottom">
+				<div class="bottom-icon">
+					<img src="./img/foot.png" /> <!--资源来自爱奇艺-->
+				</div>
+			</div>
+		</div>
+		<div class="footer" style="text-align: center;margin-bottom: 1.5rem;">
+			<p style="font-size: .5rem;"><a href="javascript:;" style="color: #1E90FF;text-decoration: none;">Design by ----L King</a></p>
+		</div>
+		<script>
+			$(document).ready(function(){
+				var show=true;
+				$('.container-head-intro-summary a').click(function(){
+					if (show) {
+						$('#summary').css("display","block");
+						$(this).html("收起")
+						show=false;
+					} else{
+						$('#summary').css("display","-webkit-box");
+						$(this).html("展开");
+						show=true;
+					}
+					
+				})
+			})
+		</script>
+	</body>
+</html>

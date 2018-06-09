@@ -1,0 +1,1028 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org"> 
+	
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<title>首页</title>
+	
+		<style type="text/css">
+			html{
+				color:#000;
+				overflow-y:scroll;
+				-webkit-text-size-adjust:100%;
+				-ms-text-size-adjust:100%;
+				}
+			html *{
+				outline:0;
+				-webkit-text-size-adjust:none;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body {
+				background:#FFF;
+				color:#4a4f5a;
+				font: 400 14px/1.5 "微软雅黑",Helvetica,STHeiti,Droid Sans Fallback;
+				-webkit-text-size-adjust: 100%;
+				-ms-text-size-adjust: 100%;
+				-webkit-tap-highlight-color:rgba(0,0,0,0);
+				}
+			body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}
+			/*header标签样式*/
+			.header{
+				width: 100%;
+				height: 1rem;
+				background-color: #F2F2F2;
+				position: fixed;
+				overflow: hidden;
+				top: 0;
+				z-index: 100;
+			}
+			.header .float,.right div{
+				float: left;
+			}
+			.right{
+				float: right;
+			}
+			.right div{
+				margin-right: .5rem;
+			}
+			.header .float,.right{
+				margin-top: .2rem;
+			}
+			.title{
+				margin-left: .3rem;
+			}
+			.header img{
+				height: .6rem;
+			}
+/*			导航栏样式*/
+			li{
+				list-style-type: none;
+			}
+			.clearfix:after{content:".";display:block;height:0;clear: both;visibility:hidden;}
+			.clearfix{*zoom:1;}
+			
+			.wrapper03 {
+				top: 1rem;
+				position:fixed;
+				height: 1rem;
+				width: 100%;
+				overflow: hidden;
+				margin:0 auto;
+				background-color: white;
+				border-bottom:1px solid #ccc;
+				z-index: 100;
+				}
+			.wrapper03 .scroller {
+				position:absolute;
+				}
+			.wrapper03 .scroller li {
+				height: 1rem;
+				color:#333;
+				float: left;
+				line-height: 1rem;
+				font-size: .4rem;
+				text-align: center;
+				}
+			.wrapper03 .scroller li a{
+				color:#333;
+				display:block;
+				margin:0 .3rem;
+				padding:0 .1rem;
+				text-decoration: none;
+				}
+				.wrapper03 .scroller li:last-child a{
+					margin-right: .6rem;
+				}
+			.wrapper03 .scroller li.cur a{
+				color:#1cbb9b;
+				height:.9rem;
+				border-bottom:.1rem solid #1cbb9b;
+				}
+
+			.nav_list{
+				position: fixed;
+				background-color: white;
+				top: 2rem;
+				z-index: 10000;
+				opacity: .9;
+				display: none;
+
+			}
+			.nav_list li{
+				float: left;
+				height: 1rem;
+				line-height: 1rem;
+				font-size: .4rem;
+				text-align: center;
+
+			}
+			.nav_list li a{
+				text-decoration: none;
+				margin:0 .3rem;
+				padding:0 .1rem;
+			}
+			/*banner样式*/
+			.banner{
+				width: 100%;
+				overflow: hidden;
+				margin-top: 2rem;
+			}
+			.banner .pic{
+				width: 60rem;
+				height: 150px;
+				overflow: hidden;
+				position: relative;
+			}
+			.banner img{
+				float: left;
+				width: 9rem;
+				height: 150px;
+				margin: 0 .5rem;
+				border-radius: .3rem;
+			}
+			.content{
+				padding-bottom: .1rem;
+			}
+			/*电视剧、电影、动漫、综艺列表样式*/
+			.TVplay,.Movie,.Comic,.Variety{
+				padding-bottom: .1rem;
+				border-bottom: 1px solid #999999;
+			}
+			.TVplay .play-name,.Movie .movie-name,.Comic .comic-name,.Variety .variety-name{
+				height: 1.5rem;
+			}
+			.TVplay .play-name p,.Movie .movie-name p,.Comic .comic-name p,.Variety .variety-name p{
+				line-height: 1.5rem;
+				font-size: .7rem;
+				font-weight: 600;
+				font-family: "微软雅黑";
+			}
+			.tv-list li,.movie-list li,.comic-list li{
+				display: inline-block;
+				vertical-align: top;
+				overflow: hidden;
+				width: 32.5%;
+			}
+			.tv-list li a{
+				text-decoration: none;
+				color: #333333;
+			}
+			.tv-list-img,.movie-list-img,.comic-list-img,.varity-list-img{
+				width: 100%;
+			}
+			.tv-list-img img,.movie-list-img img,.comic-list-img img,.varity-list-img img{
+				width: 100%;
+			}
+			.tv-list-title,.movie-list-title,.comic-list-title,.varity-list-title{
+				padding: .1rem;
+
+			}
+			.tv-list-title span,.movie-list-title span,.comic-list-title span,.varity-list-title span{
+				font-size: .4rem;
+			}
+			.tv-list-bottom,.movie-list-bottom,.comic-list-bottom,.varity-list-bottom{
+				overflow: hidden;
+			}
+			.tv-list-bottom div,.movie-list-bottom div{
+				float: left;
+				width: 50%;
+				text-align: center;
+				padding: .3rem 0;
+			}
+			.tv-list-bottom p,.movie-list-bottom p{
+				font-size: .45rem;
+				font-weight: 300;
+				color: #76EE00;
+			}
+			/*综艺列表样式*/
+			.varity-list li{
+				display: inline-block;
+				vertical-align: top;
+				overflow: hidden;
+				width: 49.1%;
+			}
+			/*动漫/综艺底部按键样式*/
+			.comic-list-bottom div,.varity-list-bottom div{
+				width: 100%;
+				text-align: center;
+				padding: .3rem 0;
+			}
+			.comic-list-bottom p,.varity-list-bottom p{
+				font-size: .45rem;
+				font-weight: 300;
+				color: #76EE00;
+			}
+			.bottom{
+				text-align: center;
+				margin-top: .6rem;
+			}
+			.bottom-icon img{
+				width: 3rem;
+			}
+			.ZY li{
+				width: 49%;
+			}
+		</style>
+	</head>
+<body>
+	<div class="header">
+		<div class="title float">
+			<img src="img/标题.png"/>
+		</div>
+		<div class="right">
+			<a href="search.html">
+				<div class="search">
+					<img src="img/放大镜.png" />
+				</div>
+			</a>
+			<div class="history">
+				<img src="img/历史.png" />
+			</div>
+			<div class="mine">
+				<a href="person.html"><img src="img/我的.png" /></a>
+			</div>
+		</div>
+	</div>
+	<!--<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>-->
+	<!--顶部导航栏-->
+	<div class="wrapper wrapper03" id="wrapper03">
+		<div class="scroller">
+			<ul class="clearfix">
+				<li><a href="javascript:void(0)">首页</a></li>
+				<li><a href="tag_page.html">电影</a></li>
+				<li><a href="tag_page.html">电视剧</a></li>
+				<li><a href="tag_page.html">综艺</a></li>
+				<li><a href="tag_page.html">动漫</a></li>
+				<li><a href="tag_page.html">生活</a></li>
+				<li><a href="tag_page.html">游戏</a></li>
+				<li><a href="tag_page.html">体育</a></li>
+				<li><a href="tag_page.html">儿童</a></li>
+				<li><a href="tag_page.html">母婴</a></li>
+				<li><a href="tag_page.html">教育</a></li>
+				<li><a href="tag_page.html">健康</a></li>
+				<li><a href="tag_page.html">音乐</a></li>
+				<li><a href="tag_page.html">搞笑</a></li>
+				<li><a href="tag_page.html">原创</a></li>
+				<li><a href="tag_page.html">旅游</a></li>
+				<li><a href="tag_page.html">财经</a></li>
+			</ul><!--cleaefix结束-->
+		</div><!--scroller结束-->
+		<div class="nav_icon" style="padding-right:.1rem;background-color: white;position: absolute;right: 0;top: .25rem;">
+			<img src="img/nav.jpg" style="height: .5rem;"/>
+		</div><!--nav_icon结束-->
+		<div class="nav_list">
+			<ul>
+				<li><a href="javascript:void(0)">首页</a></li>
+				<li><a href="javascript:void(0)">电影</a></li>
+				<li><a href="javascript:void(0)">电视剧</a></li>
+				<li><a href="javascript:void(0)">综艺</a></li>
+				<li><a href="javascript:void(0)">动漫</a></li>
+				<li><a href="javascript:void(0)">生活</a></li>
+				<li><a href="javascript:void(0)">游戏</a></li>
+				<li><a href="javascript:void(0)">体育</a></li>
+				<li><a href="javascript:void(0)">儿童</a></li>
+				<li><a href="javascript:void(0)">母婴</a></li>
+				<li><a href="javascript:void(0)">教育</a></li>
+				<li><a href="javascript:void(0)">健康</a></li>
+				<li><a href="javascript:void(0)">音乐</a></li>
+				<li><a href="javascript:void(0)">搞笑</a></li>
+				<li><a href="javascript:void(0)">原创</a></li>
+				<li><a href="javascript:void(0)">旅游</a></li>
+				<li><a href="javascript:void(0)">财经</a></li>
+			</ul><!--cleaefix结束-->
+		</div><!--scroller结束-->
+	</div><!--wrapper结束-->
+	<div class="banner" id="boxID">
+		<div class="pic">
+	    	<ul>
+	    		<li>
+					<img src="img/1101.jpg" title=""/>
+				</li>
+				<li>
+					<img src="img/1102.jpg" title=""/>
+				</li>
+				<li>
+					<img src="img/1103.jpg" title=""/>
+				</li>
+				<li>
+					<img src="img/1104.jpg" title=""/>
+				</li>
+				<li>
+					<img src="img/1105.jpg" title=""/>
+				</li>
+				<li>
+					<img src="img/1106.jpg" title=""/>
+				</li>
+		    </ul>
+	   	</div>
+	</div>
+	<div class="content">
+		<!--第一分页容器 电视剧-->
+		<div class="TVplay">
+			<div class="play-name">
+				<p>电视剧</p>
+			</div>
+			<div class="tv-list">
+				<ul>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV1.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>钟馗捉妖记</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV2.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>同学两亿岁</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV3.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>归去来</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV4.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>冒险王卫斯理</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV5.gif"/>
+							</div>
+							<div class="tv-list-title">
+								<span>热血狂篮</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV6.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>国民安保官</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV7.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>护宝联盟</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV8.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>如果爱</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV9.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>走火</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV10.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>泡沫之夏</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV11.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>玄门大师</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/TV12.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>家有儿女初长成</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tv-list-bottom">
+				<div class="tv-more">
+					<p>更多</p>
+				</div>
+				<div class="tv-change">
+					<p>换一批</p>
+				</div>
+			</div>
+		</div><!--电视剧tvplay结束-->
+		<div class="TVplay">
+			<div class="play-name">
+				<p>电影</p>
+			</div>
+			<div class="tv-list">
+				<ul>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie01.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>佣兵战争2</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie02.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>泯灭</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie03.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>脱皮爸爸</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie04.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>巴霍巴利王2：终结</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie05.gif"/>
+							</div>
+							<div class="tv-list-title">
+								<span>起跑线</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie06.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>幕后玩家</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie07.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>无问西东</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie08.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>红海行动</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie09.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>幸福马上来</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie10.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>缝纫机乐队</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie11.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>二十二</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/movie12.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>识色，幸也</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tv-list-bottom">
+				<div class="tv-more">
+					<p>更多</p>
+				</div>
+				<div class="tv-change">
+					<p>换一批</p>
+				</div>
+			</div>
+		</div><!--电视剧tvplay结束-->
+		<div class="TVplay">
+			<div class="play-name">
+				<p>动漫</p>
+			</div>
+			<div class="tv-list">
+				<ul>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM01.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>赛尔号 第9季 霹雳九重天</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM02.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>画江湖之侠岚</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM03.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>灵域 追忆篇</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM04.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>博人传 火影忍者新时代</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM05.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>熊出没·变形记</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM06.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>吃鸡大作战 第1季</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM07.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>欧布奥特曼 英雄传</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM08.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>万界仙踪</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM09.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>梦塔·雪谜城</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM10.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>全金属狂潮 第4季</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM11.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>偶像活动Friends!</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="series_detail.html">
+							<div class="tv-list-img">
+								<img src="img/DM12.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>罪人与龙共舞</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tv-list-bottom">
+				<div class="tv-more">
+					<p>更多</p>
+				</div>
+				<div class="tv-change">
+					<p>换一批</p>
+				</div>
+			</div>
+		</div><!--电视剧tvplay结束-->
+		<div class="TVplay">
+			<div class="play-name">
+				<p>综艺</p>
+			</div>
+			<div class="tv-list">
+				<ul class="ZY">
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY01.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>向往的生活第二季</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY02.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>奔跑吧第二季</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY03.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>妈妈是超人</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY04.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>热血街舞团</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY05.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>机器人争霸</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY06.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>极限挑战第四季</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY07.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>坑王驾到2</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY08.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>心动的味道</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY09.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>嗨唱起来</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY10.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>萌娃</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY11.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>非常静距离</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/ZY12.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>跨界歌王第三季</span>
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tv-list-bottom">
+				<div class="tv-more">
+					<p>更多</p>
+				</div>
+				<div class="tv-change">
+					<p>换一批</p>
+				</div>
+			</div>
+		</div><!--电视剧tvplay结束-->
+		<div class="TVplay">
+			<div class="play-name">
+				<p>娱乐</p>
+			</div>
+			<div class="tv-list">
+				<ul class="ZY">
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/YL01.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>将超声刀比作烤肉？</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/YL02.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>香港作家刘以鬯去世</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/YL03.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>易烊千玺高中毕业照曝光</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/YL04.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>陈立农微博粉丝破400万</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/YL05.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>日本现翻版防弹少年团</span>
+							</div>
+						</a>
+					</li>
+					<li>
+						<a>
+							<div class="tv-list-img">
+								<img src="img/YL06.jpg"/>
+							</div>
+							<div class="tv-list-title">
+								<span>律师独家解读"阴阳合同"</span>
+							</div>
+						</a>
+					</li>
+					
+				</ul>
+			</div>
+			<div class="tv-list-bottom">
+				<div class="tv-more" style="width: 100%;">
+					<p>更多</p>
+				</div>
+			</div>
+		</div><!--电视剧tvplay结束-->
+		<div class="bottom">
+			<div class="bottom-icon">
+				<img src="img/foot.png" /> <!--资源来自爱奇艺-->
+			</div>
+		</div>
+	</div><!--content结束-->
+	<div class="footer" style="text-align: center;margin-bottom: 1.5rem;">
+		<p style="font-size: .5rem;"><a href="javascript:;" style="color: #1E90FF;text-decoration: none;">Design by ----L King</a></p>
+	</div>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/flexible.js"></script>
+	<script type="text/javascript" src="js/iscroll.js"></script>
+	<script type="text/javascript" src="js/navbarscroll.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+		$(function(){
+            console.log(/*[[${indexData.navigetor}]]*/);
+			//导航栏调取方法
+			$('.wrapper').navbarscroll();
+			//banner轮播特效
+			var go=function(){
+				if($('.pic').position().left>-window.innerWidth*5){
+					$('.pic').animate({left:'-=10rem'},2000);
+					setTimeout(go,4000);
+				}else if($('.pic').position().left=-window.innerWidth*4){
+					$('.pic').css('left','0');
+					setTimeout(go,0);
+				}
+			}
+			setTimeout(go,2000);
+
+            var nav=true;
+            $('.nav_icon').click(function(){
+                if (nav) {
+                    $('.nav_list').css("display","block");
+                    nav=false;
+                } else{
+                    $('.nav_list').css("display","none");
+                    nav=true;
+                }
+            });
+
+            $('.tv-list ul').each(function(i){
+                $(this).find('li').each(function(x){
+                    if (x>5) {
+                        $(this).css("display","none")
+                    }
+                });
+            });
+            var change=[]
+            $li=$('.tv-list ul');
+            $('.tv-change').each(function(y){
+                $(this).click(function(){
+                    if(change[y]){
+                        $li.eq(y).find('li').each(function(x){
+                            if(x>5){
+                                $(this).css("display","none");
+                            }else{
+                                $(this).css("display","inline-block")
+                            }
+                        });
+                        change[y]=false;
+                    }else{
+                        $li.eq(y).find('li').each(function(x){
+                            if(x > 5){
+                                $(this).css("display","inline-block");
+                            }else{
+                                $(this).css("display","none");
+                            }
+                        });
+                        change[y]=true;
+                    }
+                });
+            });
+
+
+			
+		});
+	</script>
+</body>
+</html>
